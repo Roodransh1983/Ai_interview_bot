@@ -1,0 +1,152 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+:root {
+    --bg-dark: #0f172a;
+    --primary: #3b82f6;
+    --text-light: #f8fafc;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: var(--bg-dark);
+    color: var(--text-light);
+    overflow-x: hidden;
+}
+
+/* 3D Canvas Container */
+#canvas-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+}
+
+/* Login UI */
+#login-screen {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 40px;
+    border-radius: 15px;
+    z-index: 10;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1.5s ease;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+    width: 350px;
+    text-align: center;
+}
+
+#login-screen.visible {
+    opacity: 1;
+    pointer-events: all;
+}
+
+input,
+button {
+    width: 100%;
+    margin: 10px 0;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+}
+
+button {
+    background: var(--primary);
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #2563eb;
+}
+
+/* Chat / Voice UI */
+.container {
+    padding: 50px;
+    max-width: 800px;
+    margin: auto;
+}
+
+.card {
+    background: #1e293b;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.chat-box {
+    height: 300px;
+    overflow-y: auto;
+    background: #0f172a;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.msg-ai {
+    color: #3b82f6;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.msg-user {
+    color: #10b981;
+    margin-bottom: 10px;
+    text-align: right;
+}
+
+/* Voice Waveform Animation */
+.waveform {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    height: 50px;
+}
+
+.waveform.active {
+    display: flex;
+}
+
+.bar {
+    width: 6px;
+    height: 10px;
+    background: #3b82f6;
+    animation: wave 1s infinite ease-in-out;
+    border-radius: 10px;
+}
+
+.bar:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.bar:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes wave {
+
+    0%,
+    100% {
+        height: 10px;
+    }
+
+    50% {
+        height: 40px;
+    }
+}
