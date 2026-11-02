@@ -5,11 +5,11 @@
   <img src="https://img.shields.io/badge/FastAPI-0.109+-009688?logo=fastapi&logoColor=white" alt="FastAPI" />
   <img src="https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=white" alt="React" />
   <img src="https://img.shields.io/badge/MongoDB-7-47A248?logo=mongodb&logoColor=white" alt="MongoDB" />
-  <img src="https://img.shields.io/badge/NLP-TF-IDF%20%2B%20spaCy-8A2BE2" alt="NLP" />
+  <img src="https://img.shields.io/badge/NLP-NLTK%20%2B%20scikit-learn-8A2BE2" alt="NLP" />
 </div>
 
 <p align="center">
-  <strong>Custom AI interview preparation platform for technical interviews, resume-based Q&A, and confidence-aware evaluation.</strong>
+  <strong>Resume-driven AI interview practice platform for technical interview preparation.</strong>
 </p>
 
 <p align="center">
@@ -50,59 +50,52 @@
 
 ## Project Overview
 
-AI Interview Bot is a full-stack interview practice platform designed to simulate realistic technical interviews using a resume-driven, custom AI engine. The application lets a candidate upload a resume, extracts relevant technical skills, generates domain-specific questions, evaluates answers using NLP and similarity-based scoring, and produces a final interview report.
+AI Interview Bot is a full-stack interview preparation platform that uses a candidate's resume as the basis for personalized technical interview questions. It parses uploaded resumes, extracts relevant skills, generates domain-specific questions, evaluates answers, and produces a final performance report.
 
-The product is intentionally built without external AI APIs. Instead, it uses a local rule-based and NLP-driven pipeline based on:
+The system is designed to work without external AI APIs. It uses local rule-based logic and a custom evaluation pipeline built around:
 
-- PDF/DOCX resume parsing
+- PDF and DOCX resume parsing
 - keyword extraction
 - TF-IDF and cosine similarity
-- question generation from a predefined skill bank
-- confidence detection from answer wording
-- report generation with strengths, weaknesses, and suggestions
+- rule-based question generation
+- answer scoring and confidence estimation
+- final report generation with strengths, weaknesses, and suggestions
 
-This project is suitable for candidates preparing for interviews, educators evaluating student responses, and developers building end-to-end interview simulation systems.
+This project is intended for students, developers, and recruiters who want an interview simulator that is more relevant to the user's actual background and experience.
 
 ## Problem Statement
 
-Modern interview preparation tools often require external AI services, are expensive to operate, or are not tailored to each candidate's actual skill profile. Many candidates also prepare with generic questions instead of questions aligned with their resume and expertise.
-
-AI Interview Bot addresses this by combining:
-
-- resume-based skill extraction
-- personalized question generation
-- answer scoring through NLP and similarity metrics
-- interview mode support for text and video scenarios
-- actionable feedback and performance reports
+Many interview preparation tools rely on generic questions, require external services, or do not adapt to the candidate's experience. AI Interview Bot addresses that gap by tailoring interview questions to the skills found in the uploaded resume and scoring answers with a transparent, local evaluation workflow.
 
 ## Key Features
 
 ### Implemented features
 
 - Resume upload and parsing for PDF and DOCX files
-- Resume skill extraction and profile-aware question generation
+- Skill extraction from resume content
+- Resume-tailored question generation
 - Custom AI evaluation engine without external AI APIs
 - TF-IDF + cosine similarity answer matching
-- NLTK and spaCy-style NLP processing pipeline for keyword extraction and preprocessing
-- Rule-based interview question generation based on resume keywords
+- NLTK-based keyword extraction and preprocessing
+- scikit-learn similarity scoring
+- Rule-based question generation based on resume keywords
 - Text interview mode
-- Video interview mode with browser camera access and MediaPipe face detection
-- Looking-away and attention warnings during video interviews
+- Video interview mode using browser camera access and MediaPipe Face Mesh
+- Local looking-away warning in video mode
 - Interview scoring and report generation
-- Radar-chart-like category summaries and strengths/weaknesses analysis
+- Strengths/weakness analysis
 - SMTP-based report email delivery
-- Interview leaderboard based on average score
+- Leaderboard based on average score
 - React + Tailwind + Framer Motion frontend
 - FastAPI backend with MongoDB persistence
-- JWT-based authentication with bcrypt password hashing
+- JWT authentication with bcrypt password hashing
 
-### Future / planned areas
+### Not currently implemented as part of the active project flow
 
-- More advanced multilingual support
-- Deeper behavioral analysis for video interviews
-- Better evaluation models beyond rule-based heuristics
-- Interview analytics dashboard with historical trends
-- Expanded question banks for more domains and roles
+- Voice-level confidence analysis
+- Video-based confidence scoring added to the final report
+- Backend analysis of gaze data or camera behavior beyond local UI warnings
+- External AI model integration
 
 ---
 
@@ -110,16 +103,18 @@ AI Interview Bot addresses this by combining:
 
 | Component | Technology | Purpose |
 | --- | --- | --- |
-| Frontend | React, Vite, Tailwind CSS, Framer Motion | Web UI for landing page, dashboard, interviews, and reports |
-| Backend | FastAPI | REST API and WebSocket-based interview orchestration |
-| Programming Language | Python | Core application logic, AI engine, services, and data flow |
-| Database | MongoDB with Motor | Persistence for users, interviews, reports, and leaderboard data |
-| Authentication | JWT + Passlib + Bcrypt | Secure user registration, login, and authorization |
-| Resume Parsing | PyPDF2, python-docx | Extract text from uploaded PDF and DOCX resumes |
-| NLP / ML | NLTK, spaCy, scikit-learn | Tokenization, keyword extraction, TF-IDF, and cosine similarity |
-| Real-Time Video | WebRTC browser APIs + MediaPipe Face Mesh | Video interview monitoring and face tracking |
-| Email | SMTP (Gmail compatible config) | Sending interview reports by email |
-| Dev / Infra | Docker, Docker Compose | Local containerized setup for MongoDB, backend, and frontend |
+| Frontend | React, Vite, Tailwind CSS, Framer Motion | UI for landing page, dashboard, interview flow, reports, and leaderboard |
+| Backend | FastAPI | API layer and application logic |
+| Programming Language | Python | Core backend logic, NLP, evaluation, and business services |
+| Database | MongoDB with Motor | Persistence for users, sessions, reports, and leaderboard data |
+| Authentication | JWT + Passlib + Bcrypt | Secure user registration, login, and protected routes |
+| Resume Parsing | PyPDF2, python-docx | Extraction of candidate resume text |
+| NLP / ML | NLTK + scikit-learn | Tokenization, keyword extraction, TF-IDF, cosine similarity |
+| Video Monitoring | browser `getUserMedia` + MediaPipe Face Mesh | Local face landmark tracking and looking-away warnings |
+| Email | SMTP (Gmail-compatible config) | Sending interview reports by email |
+| Containerization | Docker / Docker Compose | Local development setup |
+
+Note: The source code currently uses NLTK and scikit-learn for NLP evaluation. There is no verified spaCy integration in the repository's active code path.
 
 ---
 
@@ -128,10 +123,9 @@ AI Interview Bot addresses this by combining:
 ```mermaid
 flowchart LR
     U[User] --> FE[React Frontend]
-    FE --> API[FastAPI Backend]
-    FE --> WS[WebSocket Interview Session]
+    FE --> API[FastAPI Backend REST API]
+    FE --> RESUME[Resume Upload Flow]
     API --> AUTH[JWT Auth]
-    API --> RESUME[Resume Parsing Service]
     API --> INT[Interview Service]
     INT --> QG[Question Generator]
     INT --> AE[Answer Evaluator]
@@ -140,56 +134,58 @@ flowchart LR
     RESUME --> SKILLS[Skill Extraction]
     API --> DB[(MongoDB)]
     INT --> SCORE[Scoring Engine]
-    SCORE --> REPORT[Interview Report]
+    SCORE --> REPORT[Report Generator]
     FE --> REPORT
 ```
 
-The architecture follows a simple pattern: user interaction in the frontend, authenticated API and WebSocket requests in the backend, resume-based personalization, local NLP evaluation, and report persistence in MongoDB.
+The backend does expose a WebSocket endpoint at `/interview/ws`, but the current frontend interview flow in this repository uses Axios REST calls (`/interview/start`, `/interview/answer`, `/interview/complete/{session_id}`) rather than WebSockets for interview orchestration.
 
 ## How the Custom AI Engine Works
 
-The engine is built around a rule-based and NLP-assisted approach rather than an external LLM or cloud AI model.
+The evaluation engine is rule-based and NLP-driven rather than dependent on external LLMs or cloud AI APIs.
 
-1. Resume parsing extracts text from PDF/DOCX files.
-2. Relevant skills are matched against a predefined skill dictionary and NLP-based keyword extraction.
-3. The question generator maps those skills to categories such as Python, JavaScript, React, SQL, Machine Learning, and HR.
-4. The interview engine chooses a question set based on user profile and difficulty.
-5. For each answer, the evaluator uses:
-   - keyword matching against ideal keywords
-   - TF-IDF vectorization and cosine similarity against the ideal answer
-   - answer length adequacy scoring
-   - confidence detection based on hesitation and uncertainty phrases
-6. The scoring engine combines results into a final score, strengths/weaknesses, and suggestions.
+1. A resume is uploaded and its text is extracted.
+2. Relevant technical keywords are identified from the candidate's background.
+3. These skills are mapped to question categories.
+4. Questions are generated from a built-in question bank.
+5. Each answer is evaluated using keyword matching, semantic similarity, answer length, and confidence heuristics.
+6. The report aggregates the results and produces strengths, weaknesses, and improvement suggestions.
 
 ### Resume skill extraction
 
-The resume service reads the uploaded file, extracts the text, and looks for known technology keywords such as Python, React, SQL, Docker, AWS, machine learning, and communication. It also runs NLP keyword extraction on the raw text to find important domain-specific terms.
+The `ResumeService` reads uploaded PDF/DOCX files, extracts text, and looks for known technical keywords such as Python, JavaScript, React, SQL, Docker, AWS, and machine learning. It also runs an NLP keyword extraction pass to identify important terms beyond the static skill list.
 
 ### Question selection
 
-The `QuestionGenerator` maps extracted skills to question categories. This means a resume emphasizing React or JavaScript will produce more frontend and JavaScript-oriented questions, while a machine learning resume will trigger ML-centric interview prompts.
+The `QuestionGenerator` maps extracted skills to related categories and draws questions from the internal question bank. This means that a resume rich in Python or ML topics will generate more relevant questions in those domains.
 
 ### TF-IDF and cosine similarity
 
-The `NLPProcessor` uses `TfidfVectorizer` and `cosine_similarity` to compare the candidate answer against the ideal answer. This provides a semantic signal beyond basic keyword matching and helps capture whether the answer is conceptually close to the expected response.
+`NLPProcessor` uses `TfidfVectorizer` and `cosine_similarity` to compare the user answer against the ideal answer. This gives a semantic similarity score between the candidate's answer and the expected concept coverage.
 
 ### Keyword matching and answer length
 
-The `AnswerEvaluator` combines three scoring signals:
+Per-question scoring is implemented as:
 
-- keyword match percentage (40%)
-- semantic similarity score (40%)
-- answer length adequacy (20%)
+- 40% keyword matching
+- 40% TF-IDF cosine similarity
+- 20% answer-length adequacy
 
-This approach rewards substantial, relevant responses while penalizing overly short or extremely verbose answers.
+The score is computed in `AnswerEvaluator.evaluate()` using the weighted formula:
+
+```text
+total_score = keyword_score * 0.4 + similarity_score * 0.4 + length_score * 0.2
+```
+
+This rewards answers that include the right concepts, are semantically close to the ideal response, and are of sufficient length without being overly verbose.
 
 ### Confidence detection
 
-The `ConfidenceDetector` estimates confidence by checking for hesitation words, uncertainty phrases, and confidence boosters. This is a lightweight heuristic approach rather than a trained classifier.
+Confidence is estimated using phrase-level heuristics in `ConfidenceDetector`. It looks for hesitation terms, uncertainty patterns, and confidence booster words. This is a text-based heuristic, not a model-based voice or video analysis system.
 
-### Video monitoring with MediaPipe and WebRTC
+### Video monitoring with MediaPipe and browser camera APIs
 
-The frontend interview mode uses browser camera access and the MediaPipe Face Mesh library to detect face landmarks and track whether the candidate is facing the camera. The application can raise warnings when the user looks away, which is then used as additional video behavior context during the interview flow.
+In video mode, the frontend requests camera access using browser `MediaDevices.getUserMedia()` and analyzes the live feed with MediaPipe Face Mesh. It raises a local looking-away warning when the face landmarks indicate the candidate is not facing the camera. This warning is displayed in the UI only and is not sent to the backend or included in the interview score or final report.
 
 ---
 
@@ -202,29 +198,18 @@ flowchart TD
     C --> D[Generate skills and interview questions]
     D --> E[Start interview session]
     E --> F[Answer question]
-    F --> G[Evaluate with NLP + similarity + confidence]
+    F --> G[Evaluate with keyword matching + similarity + confidence]
     G --> H{More questions?}
     H -- Yes --> F
     H -- No --> I[Generate final report]
-    I --> J[Review strengths, weaknesses, leaderboard, and email]
+    I --> J[Review score, feedback, leaderboard, email report]
 ```
 
 ## Screenshots and Demo Gallery
 
-No screenshots or demo assets are currently committed in this repository.
+Screenshots and demo assets have not yet been added to this repository.
 
-The sections below are placeholders for future screenshots and product visuals.
-
-### Placeholder gallery
-
-- Home / landing page: Coming soon
-- Login / registration page: Coming soon
-- Resume upload flow: Coming soon
-- Main interview interface: Coming soon
-- Final report page: Coming soon
-- Leaderboard view: Coming soon
-
-> Note: This repository does not currently include a verified public deployment or screenshot assets.
+This is a placeholder note only: no verified application screenshots are currently committed in the project.
 
 ---
 
@@ -233,11 +218,20 @@ The sections below are placeholders for future screenshots and product visuals.
 ```text
 AI_interview_bot/
 ├── README.md
+├── .gitignore
 ├── docker-compose.yml
 ├── backend/
 │   ├── Dockerfile
 │   ├── requirements.txt
 │   ├── run.py
+│   ├── ai_engine/
+│   │   ├── __init__.py
+│   │   ├── answer_evaluator.py
+│   │   ├── confidence_detector.py
+│   │   ├── nlp_processor.py
+│   │   ├── question_bank.py
+│   │   ├── question_generator.py
+│   │   └── scoring_engine.py
 │   └── app/
 │       ├── __init__.py
 │       ├── config.py
@@ -259,70 +253,61 @@ AI_interview_bot/
 │       │   └── resume_service.py
 │       └── utils/
 │           └── security.py
-│
-├── backend/ai_engine/
-│   ├── __init__.py
-│   ├── answer_evaluator.py
-│   ├── confidence_detector.py
-│   ├── nlp_processor.py
-│   ├── question_bank.py
-│   ├── question_generator.py
-│   └── scoring_engine.py
-│
-└── frontend/
-    ├── Dockerfile
-    ├── package.json
-    ├── vite.config.js
-    ├── tailwind.config.js
-    ├── postcss.config.js
-    ├── index.html
-    ├── public/
-    └── src/
-        ├── App.jsx
-        ├── index.css
-        ├── main.jsx
-        ├── components/
-        │   └── layout/
-        │       └── Navbar.jsx
-        ├── pages/
-        │   ├── Dashboard.jsx
-        │   ├── InterviewMode.jsx
-        │   ├── Landing.jsx
-        │   ├── Leaderboard.jsx
-        │   ├── Login.jsx
-        │   ├── Register.jsx
-        │   ├── Report.jsx
-        │   └── ResumeUpload.jsx
-        ├── services/
-        │   └── api.js
-        └── store/
-            ├── authStore.js
-            ├── interviewStore.js
-            └── themeStore.js
+├── frontend/
+│   ├── Dockerfile
+│   ├── package.json
+│   ├── vite.config.js
+│   ├── tailwind.config.js
+│   ├── postcss.config.js
+│   ├── index.html
+│   ├── public/
+│   └── src/
+│       ├── App.jsx
+│       ├── index.css
+│       ├── main.jsx
+│       ├── components/
+│       │   └── layout/
+│       │       └── Navbar.jsx
+│       ├── pages/
+│       │   ├── Dashboard.jsx
+│       │   ├── InterviewMode.jsx
+│       │   ├── Landing.jsx
+│       │   ├── Leaderboard.jsx
+│       │   ├── Login.jsx
+│       │   ├── Register.jsx
+│       │   ├── Report.jsx
+│       │   └── ResumeUpload.jsx
+│       ├── services/
+│       │   └── api.js
+│       └── store/
+│           ├── authStore.js
+│           ├── interviewStore.js
+│           └── themeStore.js
+└── frontend/package-lock.json
 ```
 
 ## API Documentation
 
-The backend exposes a FastAPI API with authentication, resume, interview, report, and leaderboard routes.
+The backend exposes REST endpoints for authentication, resume upload, interviews, reports, and leaderboard data. A WebSocket endpoint also exists for real-time interview handling, but the current frontend flow uses Axios REST calls instead of WebSockets for interview orchestration.
 
 | Method | Endpoint | Purpose | Notes |
 | --- | --- | --- | --- |
-| GET | `/` | API health / root response | Basic app info |
-| GET | `/health` | Health check | Verifies backend is live |
+| GET | `/` | Root check | Basic API response |
+| GET | `/health` | Health check | Returns service health |
 | POST | `/auth/register` | Register a user | Returns JWT token |
 | POST | `/auth/login` | Login a user | Returns JWT token |
 | GET | `/auth/me` | Fetch current user | Protected route |
-| POST | `/resume/upload` | Upload PDF/DOCX resume | Protected route |
-| GET | `/resume/` | Fetch parsed resume | Protected route |
+| POST | `/resume/upload` | Upload a PDF or DOCX resume | Protected route |
+| GET | `/resume/` | Fetch parsed resume data | Protected route |
 | POST | `/interview/start` | Start a new interview | Protected route |
-| POST | `/interview/answer` | Submit an answer | Protected route |
-| POST | `/interview/complete/{session_id}` | Complete interview session | Protected route |
-| GET | `/interview/session/{session_id}` | Fetch session | Protected route |
-| WS | `/interview/ws` | Real-time WebSocket interview | Handles session flow |
-| GET | `/report/{report_id}` | Fetch a report | Protected route |
-| GET | `/report/history/me` | Fetch user reports | Protected route |
-| POST | `/report/{report_id}/email` | Send report via email | Protected route |
-| GET | `/leaderboard/` | Retrieve leaderboard | Public-ish route |
+| POST | `/interview/answer` | Submit answer for evaluation | Protected route |
+| POST | `/interview/complete/{session_id}` | Complete the interview | Protected route |
+| GET | `/interview/session/{session_id}` | Fetch session state | Protected route |
+| WS | `/interview/ws` | Real-time WebSocket endpoint | Backend support exists; not used by the current frontend flow |
+| GET | `/report/{report_id}` | Fetch a specific report | Protected route |
+| GET | `/report/history/me` | Fetch user history | Protected route |
+| POST | `/report/{report_id}/email` | Send report by email | Protected route |
+| GET | `/leaderboard/` | Get leaderboard | Public leaderboard |
 | GET | `/leaderboard/me` | Get current user's rank | Protected route |
 
 ### Example request
@@ -341,15 +326,11 @@ curl -X POST http://localhost:8000/auth/register \
 
 ## Prerequisites
 
-Before running the project locally, ensure you have:
-
 - Python 3.11+
 - Node.js 18+
-- npm or yarn
+- npm
 - MongoDB running locally or via Docker Compose
 - Git
-
-For Windows, macOS, or Linux, the project setup is the same; commands differ mainly in shell usage.
 
 ---
 
@@ -369,7 +350,7 @@ cd backend
 python -m venv venv
 ```
 
-Activate the virtual environment:
+Activate the environment:
 
 #### Windows (PowerShell)
 
@@ -404,8 +385,6 @@ npm install
 
 ### 4) Start MongoDB
 
-You can either run MongoDB locally or use Docker Compose:
-
 ```bash
 docker compose up -d mongodb
 ```
@@ -414,9 +393,9 @@ docker compose up -d mongodb
 
 ## Backend Configuration
 
-The backend configuration is defined in `backend/app/config.py` and reads environment variables using `pydantic-settings`.
+The backend configuration is in `backend/app/config.py` and uses environment variables with `pydantic-settings`.
 
-Key default values:
+Key defaults:
 
 - `MONGODB_URI = mongodb://localhost:27017`
 - `DATABASE_NAME = ai_interview_bot`
@@ -430,7 +409,7 @@ Key default values:
 - `QUESTIONS_PER_INTERVIEW = 5`
 - `QUESTION_TIME_SECONDS = 120`
 
-The backend entry point is:
+Backend entry point:
 
 ```bash
 cd backend
@@ -441,26 +420,22 @@ uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 
 ## Frontend Configuration
 
-The frontend uses Vite and reads the API base URL from:
+The frontend is a Vite React application and reads the backend URL from `VITE_API_URL`.
 
-```bash
-VITE_API_URL
-```
-
-The default value is:
+Default:
 
 ```bash
 http://localhost:8000
 ```
 
-Run the frontend with:
+Run it with:
 
 ```bash
 cd frontend
 npm run dev
 ```
 
-Then open:
+Open:
 
 ```text
 http://localhost:5173
@@ -470,9 +445,9 @@ http://localhost:5173
 
 ## Environment Variables
 
-The repository does not include a committed `.env.example` file, but the app expects environment variables similar to the defaults defined in `backend/app/config.py` and `docker-compose.yml`.
+The project does not currently include a committed `.env.example`, but the runtime values align with the defaults in `backend/app/config.py` and `docker-compose.yml`.
 
-At minimum, configure:
+Typical values:
 
 ```env
 MONGODB_URI=mongodb://localhost:27017
@@ -486,37 +461,36 @@ SMTP_PASSWORD=
 
 Important:
 
-- Do not commit real credentials to source control.
-- Use local environment variables or your deployment platform's secret store.
-- SMTP credentials are only required if you want email report delivery.
+- Never commit real secrets.
+- SMTP credentials are only needed if email report delivery is enabled.
+- `SECRET_KEY` should be changed before any production deployment.
 
 ---
 
 ## Running the Project
 
-### Local backend
+### Backend
 
 ```bash
 cd backend
-source venv/bin/activate  # or .\venv\Scripts\Activate.ps1 on Windows
+source venv/bin/activate
 uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
-### Local frontend
+### Frontend
 
 ```bash
 cd frontend
-npm install
 npm run dev
 ```
 
-### Local database
+### Database
 
 ```bash
 docker compose up -d mongodb
 ```
 
-The app will typically run as:
+Typical local URLs:
 
 - Backend: `http://localhost:8000`
 - Frontend: `http://localhost:5173`
@@ -525,7 +499,7 @@ The app will typically run as:
 
 ## Docker Setup
 
-This repository includes a Docker Compose setup for the full stack.
+This repository includes Docker Compose configuration for the stack:
 
 ```bash
 docker compose up --build
@@ -537,66 +511,55 @@ This starts:
 - Backend on port `8000`
 - Frontend on port `5173`
 
-The project also includes individual Dockerfiles in both `backend/` and `frontend/`.
-
 ---
 
 ## Deployment Guide
 
-This repository does not include a verified production deployment configuration or a live public deployment URL.
+No verified public deployment URL is configured in this repository.
 
-For local or private deployment, the intended flow is:
+The intended deployment flow is:
 
-1. Set environment variables for the backend and frontend.
-2. Run MongoDB in a managed environment or container.
-3. Deploy the FastAPI backend to a host or cloud service.
-4. Deploy the React frontend using a static hosting service or Node server.
-5. Set the frontend `VITE_API_URL` to the deployed backend URL.
-6. Configure SMTP credentials if email delivery is required.
-
-> No deployment URL is verified in this repository at the time of writing.
+1. Set backend environment variables.
+2. Deploy the FastAPI backend to a cloud or server environment.
+3. Run MongoDB in a managed or containerized environment.
+4. Set the frontend `VITE_API_URL` to the deployed backend URL.
+5. Configure SMTP credentials only if email sending is required.
 
 ---
 
 ## Security Considerations
 
-- JWT tokens are used for authentication.
-- Passwords are stored using bcrypt via `passlib` and `bcrypt`.
-- The app includes CORS configuration for local frontend origins.
-- `SECRET_KEY` should be changed before production use.
-- Do not expose `SMTP_USER` and `SMTP_PASSWORD` in public repos.
-- Uploaded resume files are stored temporarily and removed after parsing.
-- MongoDB should be protected behind a controlled network or secured credentials in production.
+- JWT-based authentication is in place.
+- Passwords are hashed with bcrypt.
+- CORS is configured for local frontend origins.
+- `SECRET_KEY` should not be left unchanged in production.
+- SMTP credentials should remain in environment variables or a secure secret store.
+- Uploaded resumes are temporarily stored and removed after parsing.
 
 ---
 
 ## Future Improvements
 
-- Expand resume parsing to support more file formats and edge cases
-- Add more question categories for backend, DevOps, cloud, and system design
-- Improve answer scoring using richer NLP features and candidate history
-- Add authentication and user-role management beyond the current login flow
-- Introduce a richer dashboard for interview trends and analytics
-- Support more interview styles such as voice, live coding, or asynchronous interviews
-- Improve video monitoring with better attention and fraud detection heuristics
+- Add broader question banks for system design, DevOps, and cloud roles
+- Increase report quality with more detailed feedback analytics
+- Improve resume parsing robustness for more document variations
+- Add richer dashboard analytics and interview trends
+- Extend the video mode to include more monitoring signals, if needed
 
 ---
 
 ## Learning Outcomes
 
-This project demonstrates a broad set of full-stack and AI engineering skills, including:
+This project demonstrates:
 
 - Python backend development with FastAPI
-- Web application architecture and API design
-- React frontend development with modern UI patterns
-- MongoDB integration and data modeling
-- JWT authentication and secure password hashing
-- Resume parsing and document processing
-- Natural language processing and keyword extraction
-- TF-IDF and cosine similarity-based evaluation
-- Rules-based AI design without external model APIs
-- Real-time interview workflows and WebSocket communication
-- User feedback systems and report generation
+- MongoDB integration and data persistence
+- JWT and password hashing implementation
+- Resume parsing and data extraction
+- NLP and similarity-based evaluation
+- Frontend development with React and Tailwind CSS
+- Real-time interview flow orchestration concepts
+- Practical application of rule-based AI design without external APIs
 
 ---
 
@@ -605,41 +568,31 @@ This project demonstrates a broad set of full-stack and AI engineering skills, i
 - Author: `Roodransh1983`
 - Repository: https://github.com/Roodransh1983/Ai_interview_bot
 
-This project is intended as a serious software engineering portfolio project for internship, project showcase, and technical evaluation contexts.
-
 ## License and Contributions
 
 ### License
 
-This repository does not currently include a license file. No license has been explicitly specified in the project at the time of writing.
+No license file is present in the repository. No explicit license has been specified at this time.
 
 ### Contributions
 
-Contributions are welcome if you want to:
+Contributions are welcome for:
 
-- improve resume parsing quality
-- expand the question bank
-- improve evaluation logic
-- fix frontend UX issues
-- add tests and documentation
+- improving resume parsing quality
+- expanding the question bank
+- refining NLP scoring logic
+- enhancing the frontend experience
+- improving documentation and testing
 
 To contribute:
 
 1. Fork the repository.
 2. Create a feature branch.
-3. Make your changes.
-4. Submit a pull request with a clear description.
-
----
-
-## Summary
-
-AI Interview Bot is a custom interview preparation and evaluation platform built using Python, FastAPI, React, and MongoDB. It focuses on applicant-specific evaluation, custom AI-driven scoring, and a practical interview preparation workflow without depending on external AI services.
-
-It is designed to be understandable, extensible, and suitable for a B.Tech CSE portfolio, academic project review, and recruiter-facing technical documentation.
+3. Make changes.
+4. Submit a pull request.
 
 ---
 
 <p align="center">
-  <i>Built for interview preparation, technical evaluation, and practical AI/NLP experimentation.</i>
+  <i>Built for technical interview preparation, resume-based evaluation, and custom NLP-driven feedback.</i>
 </p>
