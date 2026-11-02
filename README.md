@@ -1,142 +1,129 @@
-# AI Interview Bot
+Act as a senior software engineer, GitHub profile reviewer, technical documentation expert, and professional open-source project maintainer.
 
-A complete, full-featured AI interview simulation platform built with a **custom AI engine** (no external AI APIs like OpenAI, Claude, or Ollama).
+I have an existing GitHub repository:
 
-## Features
+Repository: https://github.com/Roodransh1983/Ai_interview_bot
 
-- 🔐 **Authentication** — JWT-based login/register with bcrypt password hashing
-- 📄 **Resume Upload** — PDF/DOCX parsing with NLP keyword extraction
-- 🤖 **Custom AI Engine** — TF-IDF cosine similarity, NLTK NLP, rule-based question generation
-- 💬 **Text Interview Mode** — Real-time chat with AI interviewer
-- 🎥 **Video Interview Mode** — WebRTC + MediaPipe face detection ("looking away" warning)
-- 📊 **Scoring & Reports** — Per-question scores, radar charts, strengths/weaknesses
-- 📧 **Email Reports** — HTML email reports via SMTP
-- 🏆 **Leaderboard** — Ranked by average interview score
-- 🎨 **Modern UI** — React + Tailwind + Framer Motion, dark/light mode
+Project Name: AI Interview Bot
 
-## Tech Stack
+I already have a README.md containing detailed information about my project, including its features, tech stack, installation instructions, project structure, API endpoints, custom AI engine, and deployment.
 
-| Layer | Technology |
-|---|---|
-| Frontend | React 18, Vite, Tailwind CSS, Framer Motion, Recharts |
-| State | Zustand |
-| Backend | FastAPI, Python 3.11+ |
-| AI | NLTK, spaCy, Scikit-learn (TF-IDF, cosine similarity) |
-| Database | MongoDB + Motor (async) |
-| Auth | JWT (PyJWT), bcrypt |
-| Real-time | WebSocket (FastAPI) |
-| Video | WebRTC, MediaPipe FaceMesh |
+YOUR TASK:
 
-## Quick Start
+Completely redesign and upgrade my existing README.md into a premium, professional, recruiter-friendly GitHub project documentation page.
 
-### Prerequisites
-- Python 3.11+
-- Node.js 18+
-- MongoDB (local or Atlas)
+IMPORTANT: Do not create a basic README. Make it look like a professionally maintained software engineering project.
 
-### Backend Setup
+### 1. Professional visual presentation
+- Create an attractive project title and introduction.
+- Add a clean project banner at the top.
+- Use professional GitHub-compatible Markdown.
+- Add relevant technology badges.
+- Use clean section separators, tables, icons and headings.
+- Create a professional table of contents.
+- Maintain consistent formatting throughout.
+- Avoid excessive emojis and unnecessary decorations.
 
-```bash
-cd backend
+### 2. Preserve all existing technical information
 
-# Create virtual environment
-python -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
+Carefully preserve and improve the existing information about:
 
-# Install dependencies
-pip install -r requirements.txt
+- JWT authentication and bcrypt password hashing.
+- PDF/DOCX resume parsing.
+- Custom AI engine without external AI APIs.
+- TF-IDF and cosine similarity.
+- NLTK and spaCy NLP processing.
+- Rule-based question generation.
+- Text interview mode.
+- Video interview mode using WebRTC and MediaPipe.
+- Face detection and looking-away warnings.
+- Interview scoring and performance reports.
+- Radar charts and strengths/weaknesses.
+- SMTP email reports.
+- Interview leaderboard.
+- React, Tailwind CSS and Framer Motion interface.
+- FastAPI backend and MongoDB database.
 
-# Copy environment file
-cp .env.example .env
-# Edit .env with your MongoDB URI and SMTP credentials
+### 3. Organize the documentation professionally
 
-# Download NLTK data
-python -c "import nltk; nltk.download('punkt'); nltk.download('stopwords'); nltk.download('averaged_perceptron_tagger'); nltk.download('wordnet')"
+Use this structure:
 
-# Run server
-uvicorn app.main:app --reload --port 8000
-```
+1. Project Banner
+2. Project Title and Tagline
+3. Project Overview
+4. Problem Statement
+5. Key Features
+6. Screenshots and Demo Gallery
+7. Technology Stack
+8. System Architecture
+9. How the Custom AI Engine Works
+10. Interview Workflow
+11. Project Directory Structure
+12. API Documentation
+13. Prerequisites
+14. Installation and Setup
+15. Backend Configuration
+16. Frontend Configuration
+17. Environment Variables
+18. Running the Project
+19. Docker Setup
+20. Deployment Guide
+21. Security Considerations
+22. Future Improvements
+23. Learning Outcomes
+24. Author Information
+25. License and Contributions
 
-### Frontend Setup
+### 4. Make the technical sections impressive
 
-```bash
-cd frontend
+Explain the following clearly:
 
-# Install dependencies
-npm install
+- How resume skills are extracted.
+- How questions are selected based on resume skills.
+- How TF-IDF and cosine similarity evaluate answers.
+- How keyword matching and answer length contribute to scoring.
+- How confidence detection works.
+- How video monitoring uses MediaPipe and WebRTC.
 
-# Copy environment file
-cp .env.example .env
+Include simple Mermaid diagrams for:
+- Overall system architecture.
+- AI interview workflow.
+- Answer evaluation pipeline.
 
-# Run dev server
-npm run dev
-```
+### 5. GitHub presentation improvements
 
-### Using Docker
+- Add professional badges for Python, React, FastAPI, MongoDB and NLP where appropriate.
+- Add clickable navigation links.
+- Add screenshot placeholders for future screenshots.
+- Add a clean feature comparison table if useful.
+- Add installation commands for Windows, macOS and Linux.
+- Improve readability for recruiters, developers and college evaluators.
 
-```bash
-docker-compose up
-```
+### 6. Accuracy restrictions
 
-## Project Structure
+These rules are mandatory:
 
-```
-ai-interview-bot/
-├── backend/
-│   ├── app/
-│   │   ├── main.py              # FastAPI entry
-│   │   ├── config.py            # Settings
-│   │   ├── database.py          # MongoDB connection
-│   │   ├── models/              # Pydantic models
-│   │   ├── routes/              # API endpoints
-│   │   └── services/            # Business logic
-│   ├── ai_engine/               # Custom AI module
-│   │   ├── question_bank.py     # Pre-defined questions
-│   │   ├── question_generator.py
-│   │   ├── nlp_processor.py     # TF-IDF, tokenization
-│   │   ├── answer_evaluator.py  # Cosine similarity scoring
-│   │   ├── confidence_detector.py
-│   │   └── scoring_engine.py     # Report generation
-│   └── requirements.txt
-├── frontend/
-│   ├── src/
-│   │   ├── pages/               # Route pages
-│   │   ├── components/          # Reusable components
-│   │   ├── store/               # Zustand stores
-│   │   └── services/            # API client
-│   └── package.json
-└── docker-compose.yml
-```
+- First inspect the actual repository and existing README.
+- Do not invent features, technologies, API endpoints or functionality.
+- Do not claim that the application is deployed unless a working deployment exists.
+- Do not fabricate screenshots, demo URLs, performance metrics or test results.
+- Do not claim that the AI model uses deep learning or LLMs if it does not.
+- Preserve the fact that this project uses a custom AI engine and does not depend on external AI APIs.
+- Verify installation commands against the actual files.
+- Preserve all valid existing technical information.
+- Do not modify application source code or dependencies.
+- Do not expose API keys, passwords, SMTP credentials or other secrets.
 
-## API Endpoints
+### 7. Final execution
 
-| Method | Endpoint | Description |
-|---|---|---|
-| POST | /auth/register | Register new user |
-| POST | /auth/login | Login |
-| GET | /auth/me | Get current user |
-| POST | /resume/upload | Upload & parse resume |
-| GET | /resume/ | Get parsed resume |
-| POST | /interview/start | Start interview session |
-| POST | /interview/answer | Submit answer |
-| POST | /interview/complete/{id} | Complete & get report |
-| WS | /interview/ws | Real-time interview |
-| GET | /report/{id} | Get report |
-| POST | /report/{id}/email | Send email report |
-| GET | /leaderboard/ | Get leaderboard |
+Do not just give me suggestions or an example README.
 
-## How the AI Works
+Actually rewrite the complete README.md file in my existing GitHub repository.
 
-1. **Resume Parsing** — Extracts skills using PyPDF2/python-docx + NLTK keyword extraction
-2. **Question Generation** — Maps resume skills to categorized question bank
-3. **Answer Evaluation** — TF-IDF vectorization + cosine similarity against ideal answers
-4. **Confidence Detection** — Hesitation word counting ("um", "maybe", etc.)
-5. **Scoring** — Weighted average of keyword match (40%) + semantic similarity (40%) + length (20%)
+Keep it clean, professional, technically accurate, visually attractive and suitable for a serious B.Tech CSE software engineering portfolio.
 
-## Deployment
-
-- **Frontend**: Vercel (with API proxy to backend)
-- **Backend**: Render, Railway, or any Python hosting
-- **Database**: MongoDB Atlas (cloud) or self-hosted
-
-See `.env.example` for required environment variables.
+After editing:
+1. Show me the final README.md.
+2. Summarize the documentation improvements.
+3. Identify any missing screenshots or information I need to provide.
+4. Make sure the final result is ready for a GitHub commit.
